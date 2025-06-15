@@ -1,3 +1,10 @@
-// index.js
-console.log('testing the hook');
-const x     =    1; // Messy formatting
+// root index.js
+
+import app from './src/app.js';
+import { config } from './src/config/index.js';
+
+const PORT = config.PORT;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

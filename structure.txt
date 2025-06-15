@@ -1,73 +1,76 @@
 cerberus/
-├── cerberus-backend/
-│   ├── node_modules/
-│   ├── tests/                             # All tests, mirroring the `src` structure
-│   │   ├── integration/
-│   │   │   ├── services/
-│   │   │   │   └── portfolio.service.test.js
-│   │   │   └── dal/
-│   │   │       └── user.model.test.js
-│   │   └── e2e/                           # End-to-end HTTP tests
-│   │       └── portfolio.flow.test.js
-│   │
-│   ├── src/                               # All application source code
-│   │   ├── api/                           # "Controller" Layer (HTTP Interface)
-│   │   │   ├── routes/
-│   │   │   │   ├── auth.routes.js
-│   │   │   │   └── portfolio.routes.js
-│   │   │   ├── schemas/                   # Input validation schemas (Joi/Zod)
-│   │   │   │   ├── auth.schemas.js
-│   │   │   │   └── portfolio.schemas.js
-│   │   │   └── index.js                   # Main API router, combines all sub-routers
-│   │   │
-│   │   ├── services/                      # "Service" Layer (Core Business Logic)
-│   │   │   ├── auth.service.js            # User auth, JWT logic
-│   │   │   ├── market.service.js          # Price/metadata fetching and caching
-│   │   │   └── portfolio.service.js       # Orchestrates all calls to build a portfolio response
-│   │   │
-│   │   ├── bal/                           # ★ Blockchain Abstraction Layer (BAL)
-│   │   │   ├── connectors/                # Concrete implementations for chain types
-│   │   │   │   ├── evm.client.js          # Generic client for all EVM chains (uses web3.js)
-│   │   │   │   └── solana.client.js       # Specific client for Solana (uses @solana/web3.js)
-│   │   │   │
-│   │   │   └── chain.factory.js           # ★ The single entry point to the BAL. e.g., `getClient('ethereum')`
-│   │   │
-│   │   ├── middleware/                    # Reusable Express middleware
-│   │   │   ├── authenticate.js
-│   │   │   ├── errorHandler.js
-│   │   │   └── validateRequest.js
-│   │   │
-│   │   ├── config/                        # All application configuration
-│   │   │   ├── index.js                   # Loads .env, validates, and exports a frozen config object
-│   │   │   └── abis.js                    # Loads and exports contract ABIs
-│   │   │
-│   │   ├── data/                          # Static data files
-│   │   │   ├── abis/                      # JSON ABI files
-│   │   │   │   └── erc20.json
-│   │   │   └── token-lists/               # Whitelisted token lists per chain
-│   │   │       ├── ethereum.json
-│   │   │       └── solana.json
-│   │   │
-│   │   ├── dal/                           # Data Access Layer (Database Interface)
-│   │   │   ├── postgres.js                # Sets up and exports the PostgreSQL client
-│   │   │   ├── redis.js                   # Sets up and exports the Redis client
-│   │   │   └── models/                    # Functions for interacting with specific tables
-│   │   │       ├── user.model.js
-│   │   │       └── wallet.model.js
-│   │   │
-│   │   └── utils/                         # Generic, dependency-free helper functions
-│   │       ├── logger.js                  # Winston logger setup
-│   │       └── bigNumber.js               # Exports a pre-configured BigNumber library
-│   │
-│   ├── .dockerignore                    # ★ Files to exclude from the Docker image
-│   ├── .env                             # Local environment variables (NOT in git)
-│   ├── .env.example                     # Example structure of the .env file
-│   ├── .gitignore
-│   ├── Dockerfile                       # ★ Defines the multi-stage Docker build for production
-│   ├── ecosystem.config.js              # PM2 configuration for clustering (used inside Docker)
-│   ├── index.js                         # Main application entry point (clean and simple)
-│   ├── package.json
-│   ├── package-lock.json
-│   └── SECURITY.md                      # ★ The formal, non-custodial security policy document
-│
-└── cerberus-frontend/                   # (Placeholder for future frontend project)
+└── cerberus-backend/
+    ├── .husky/
+    │   └── pre-commit
+    ├── node_modules/
+    ├── tests/
+    │   ├── integration/
+    │   │   ├── services/
+    │   │   │   └── portfolio.service.test.js
+    │   │   └── dal/
+    │   │       └── user.model.test.js
+    │   └── e2e/
+    │       └── health.test.js  // We will create this next
+    │
+    ├── src/
+    │   ├── api/
+    │   │   ├── routes/
+    │   │   │   ├── auth.routes.js
+    │   │   │   └── portfolio.routes.js
+    │   │   ├── schemas/
+    │   │   │   ├── auth.schemas.js
+    │   │   │   └── portfolio.schemas.js
+    │   │   └── index.js                   // ★ Main API router (combines sub-routers)
+    │   │
+    │   ├── services/
+    │   │   ├── auth.service.js
+    │   │   ├── market.service.js
+    │   │   └── portfolio.service.js
+    │   │
+    │   ├── bal/
+    │   │   ├── connectors/
+    │   │   │   ├── evm.client.js
+    │   │   │   └── solana.client.js
+    │   │   └── chain.factory.js
+    │   │
+    │   ├── middleware/
+    │   │   ├── authenticate.js
+    │   │   ├── errorHandler.js
+    │   │   └── validateRequest.js
+    │   │
+    │   ├── config/
+    │   │   ├── index.js                   // Validated config loader
+    │   │   └── abis.js
+    │   │
+    │   ├── data/
+    │   │   ├── abis/
+    │   │   │   └── erc20.json
+    │   │   └── token-lists/
+    │   │       ├── ethereum.json
+    │   │       └── solana.json
+    │   │
+    │   ├── dal/
+    │   │   ├── postgres.js
+    │   │   ├── redis.js
+    │   │   └── models/
+    │   │       ├── user.model.js
+    │   │       └── wallet.model.js
+    │   │
+    │   ├── utils/
+    │   │   ├── logger.js
+    │   │   └── bigNumber.js
+    │   │
+    │   └── app.js                         // ★ NEW: Core Express app instance & global middleware
+    │
+    ├── .dockerignore
+    ├── .env
+    ├── .env.example
+    ├── .gitignore
+    ├── .prettierrc
+    ├── Dockerfile
+    ├── ecosystem.config.js
+    ├── eslint.config.mjs                  // ★ RENAMED to .mjs
+    ├── index.js                           // Main application entry point (server runner)
+    ├── package.json
+    ├── package-lock.json
+    └── SECURITY.md                     # ★ The formal, non-custodial security policy document
