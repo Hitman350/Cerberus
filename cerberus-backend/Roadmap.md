@@ -62,10 +62,10 @@ To establish an inviolable, professional-grade development foundation. The outco
 **Definition of Done:**
 - [x] Git repository is initialized with `main` and `develop` branches.
 - [x] A pre-commit hook is active and blocks bad commits.
-- [ ] `npm start` runs the application without errors.
-- [ ] The application will not start if required `.env` variables are missing.
-- [ ] The `/health` endpoint is reachable and returns a `200 OK`.
-- [ ] The E2E health test passes.
+- [x] `npm start` runs the application without errors.
+- [x] The application will not start if required `.env` variables are missing.
+- [x] The `/health` endpoint is reachable and returns a `200 OK`.
+- [x] The E2E health test passes.
 
 ---
 

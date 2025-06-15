@@ -26,8 +26,8 @@
   - [x] Initialize Git and NPM.
   - [x] **Install Core Dependencies & Tooling** (ESLint, Prettier, Jest, etc.).
   - [x] Configure Linter, Formatter, and Pre-commit Hooks.
-  - [ ] Implement basic Express server with a `/health` endpoint.
-  - [ ] Set up the centralized & validated `config` module.
+  - [x] Implement basic Express server with a `/health` endpoint.
+  - [x] Set up the centralized & validated `config` module.
 
 - **[ ] Phase 1: Data Access & Schema Management**
   - [ ] Implement DB Connectors (`PostgreSQL`, `Redis`).
