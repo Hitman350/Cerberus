@@ -2,6 +2,9 @@ cerberus/
 └── cerberus-backend/
     ├── .husky/
     │   └── pre-commit
+    ├── db/                                  // ★ NEW: Database schema management
+    │   └── migrations/
+    │       └── <timestamp>_create_users_and_wallets_tables.mjs
     ├── node_modules/
     ├── tests/
     │   ├── integration/

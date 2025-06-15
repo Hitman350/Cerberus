@@ -13,7 +13,9 @@
     "lint:fix": "eslint . --ext .js --fix",
     "format": "prettier --write \\src/**/*.js\\ \\tests/**/*.js\"",
     "start": "pm2-runtime index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "migrate": "node-pg-migrate -r dotenv/config",
+    "migrate:create": "npm run migrate create"
   },
   "keywords": [],
   "author": "",
