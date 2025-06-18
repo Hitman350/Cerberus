@@ -5,8 +5,8 @@ services:
     image: postgres:14-alpine
     container_name: cerberus_postgres
     environment:
-      POSTGRES_USER: aayush
-      POSTGRES_PASSWORD: Aa11yy
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: cerberus_dev
     ports:
       - '5432:5432'
