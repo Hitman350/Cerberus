@@ -232,11 +232,11 @@ To implement the "brains" of the application. This phase involves creating the s
         *   Test the calculation logic: provide mock data and assert that the final `totalValue` is arithmetically correct.
 
 **Definition of Done:**
-- [x] The `AuthService` provides complete, secure, and tested logic for user session management.
-- [x] The `PortfolioService` can correctly orchestrate all dependencies to generate an accurate portfolio value.
-- [x] The system is resilient to a single blockchain node or the market data API being down.
-- [x] All business logic is contained within the `src/services` directory.
-- [x] Unit tests for all services pass with high logical coverage.
+- [ ] The `AuthService` provides complete, secure, and tested logic for user session management.
+- [ ] The `PortfolioService` can correctly orchestrate all dependencies to generate an accurate portfolio value.
+- [ ] The system is resilient to a single blockchain node or the market data API being down.
+- [ ] All business logic is contained within the `src/services` directory.
+- [ ] Unit tests for all services pass with high logical coverage.
 
 ---
 
@@ -281,11 +281,11 @@ To build the secure, public-facing HTTP interface for the application. This phas
     *   **Portfolio Endpoint:** Test the `GET /portfolio/balance` endpoint with a valid token and assert that it returns a `200 OK` with the expected data structure.
 
 **Definition of Done:**
-- [x] All public API endpoints are defined and functional.
-- [x] All protected endpoints are secured and inaccessible without a valid JWT.
-- [x] All incoming data is validated against a strict schema.
-- [x] The global error handler correctly catches and formats all errors from the API and service layers.
-- [x] E2E tests pass for all major user flows and error conditions.
+- [ ] All public API endpoints are defined and functional.
+- [ ] All protected endpoints are secured and inaccessible without a valid JWT.
+- [ ] All incoming data is validated against a strict schema.
+- [ ] The global error handler correctly catches and formats all errors from the API and service layers.
+- [ ] E2E tests pass for all major user flows and error conditions.
 
 ---
 
@@ -339,11 +339,11 @@ To transform the functional application into a robust, observable, and deployabl
     *   Manually inspect container logs (`docker logs`) to verify JSON formatting and `requestId` tracing.
 
 **Definition of Done:**
-- [x] Redis-backed caching and rate limiting are fully implemented and functional.
-- [x] The JWT revocation mechanism is working.
-- [x] A production-ready Docker image can be successfully built.
-- [x] The application runs correctly as a containerized service and can be tested locally via Docker Compose.
-- [x] Logs are structured, traceable, and ready for ingestion by a log management system.
+- [ ] Redis-backed caching and rate limiting are fully implemented and functional.
+- [ ] The JWT revocation mechanism is working.
+- [ ] A production-ready Docker image can be successfully built.
+- [ ] The application runs correctly as a containerized service and can be tested locally via Docker Compose.
+- [ ] Logs are structured, traceable, and ready for ingestion by a log management system.
 
 ---
 
@@ -395,9 +395,9 @@ To fully automate the deployment pipeline and establish the production infrastru
 *   **Alert Testing:** Manually trigger an alarm condition (e.g., by temporarily lowering a threshold) to ensure the notification pipeline is working correctly.
 
 **Definition of Done:**
-- [x] All AWS infrastructure is defined in Terraform and can be deployed repeatably.
-- [x] The CI/CD pipeline is fully automated from pull request to production deployment.
-- [x] The application fetches all secrets from AWS Secrets Manager in production, with no secrets in the repository or environment variables.
-- [x] A monitoring dashboard provides a real-time health overview of the application.
-- [x] Critical alerts are configured and have been successfully tested.
-- [x] The application is live, stable, and serving traffic from the production environment.
+- [ ] All AWS infrastructure is defined in Terraform and can be deployed repeatably.
+- [ ] The CI/CD pipeline is fully automated from pull request to production deployment.
+- [ ] The application fetches all secrets from AWS Secrets Manager in production, with no secrets in the repository or environment variables.
+- [ ] A monitoring dashboard provides a real-time health overview of the application.
+- [ ] Critical alerts are configured and have been successfully tested.
+- [ ] The application is live, stable, and serving traffic from the production environment.

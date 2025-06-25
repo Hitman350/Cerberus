@@ -8,6 +8,10 @@ export default {
   // isolated and don't influence each other's outcomes.
   clearMocks: true,
 
+  // Automatically reset mock state before every test.
+  // Equivalent to calling jest.resetAllMocks() before each test.
+  resetMocks: true,
+
   // A list of paths to directories that Jest should search for tests in.
   // This helps speed up test discovery.
   roots: ['<rootDir>/tests'],

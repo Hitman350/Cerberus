@@ -33,17 +33,17 @@ Of course. Here is the complete, final "living document" for Project Cerberus, f
     *   [x] Implement basic Express server with a `/health` endpoint.
     *   [x] Set up the centralized & validated `config` module.
 
--   **[x] Phase 1: Data Access & Schema Management** `--> YOU ARE HERE`
+-   **[x] Phase 1: Data Access & Schema Management** 
     *   [x] Implement DB Connectors (`PostgreSQL`, `Redis`).
     *   [x] Implement graceful shutdown logic.
     *   [x] Define and manage database schema with `node-pg-migrate`.
-    *   [ ] Implement Data Access Layer (DAL) models (`user.model.js`, `wallet.model.js`).
-    *   [ ] Write integration tests for all DAL models against a test database.
+    *   [x] Implement Data Access Layer (DAL) models (`user.model.js`, `wallet.model.js`).
+    *   [x] Write integration tests for all DAL models against a test database.
 
--   **[ ] Phase 2: The Blockchain Abstraction Layer (BAL)**
-    *   [ ] Implement the generic `EVMClient`.
+-   **[ ] Phase 2: The Blockchain Abstraction Layer (BAL)** `--> YOU ARE HERE`
+    *   [x] Implement the generic `EVMClient`.
     *   [ ] Implement the `SolanaClient`.
-    *   [ ] Define the standardized `AssetBalance` interface.
+    *   [x] Define the standardized `AssetBalance` interface.
     *   [ ] Implement the `ChainFactory` to provide clients.
     *   [ ] Write integration tests for the BAL against testnets.
 
@@ -81,10 +81,26 @@ Of course. Here is the complete, final "living document" for Project Cerberus, f
 
 ## **3. Key Architectural Decisions & "Golden Rules"**
 <!--
-  HOW TO USE:
-  - This is our constitution. Record every major decision here.
-  - This prevents me from suggesting solutions that contradict our established patterns.
+  This is our constitution. It prevents me from suggesting solutions that contradict our choices.
 -->
+
+- **Architecture:** Strict `Controller -> Service -> Data Access` pattern. Controllers are thin; Services contain logic; DALs handle data.
+- **Database:**
+  - **Connection:** Use a **lazy-initialized singleton pattern** for the PostgreSQL connection pool to prevent test environment lifecycle issues.
+  - **Schema:** All schema changes are managed via `node-pg-migrate`.
+  - **Querying:** All database access is through DAL models using parameterized queries.
+- **Security:**
+  - **Validation:** All API inputs are validated upfront with `Zod`.
+  - **Password Hashing:** Use **`argon2id`** (via the `argon2` library) for password hashing, as specified in the PRD.
+  - **Authentication:** JWTs for access control.
+- **Error Handling:** Services throw custom, named errors. A global error handler middleware will catch these and format a consistent JSON response.
+- **Testing:**
+  - **DAL:** Tested with **integration tests** against a real (Dockerized) database.
+  - **Services:** Tested with **unit tests**, mocking all external dependencies (DAL, other services).
+  - **API:** Tested with **E2E tests** using `supertest`.
+- **Environment Variables:** Must be loaded at the earliest possible point in the application lifecycle (`index.js` for the app, a setup file for tests) to prevent race conditions.
+
+---
 
 -   **Overall Architecture:** Follows a strict `Controller -> Service -> Data Access` pattern.
     -   `Controllers` (`api/`): Handle HTTP `req`/`res`. Absolutely no business logic. Their job is to parse the request, call a single service method, and format the response.
@@ -133,9 +149,12 @@ cerberus/
     │   │   ├── services/
     │   │   │   └── portfolio.service.test.js
     │   │   └── dal/
-    │   │       └── user.model.test.js
-    │   └── e2e/
-    │       └── health.test.js  // We will create this next
+    │   │       ├── user.model.test.js
+    |   |       └── wallet.model.test.js
+    │   ├── e2e/
+    │   |    └── health.test.js 
+    |   |
+    |   └── jest.setup.cjs
     │
     ├── src/
     │   ├── api/

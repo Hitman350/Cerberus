@@ -1,4 +1,4 @@
-//src/config/index.js
+// Path: src/config/index.js
 
 // This file is responsible for loading and validating environment variables
 
@@ -9,7 +9,8 @@ import { z } from 'zod';
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().default(5000),
-  DATABASE_URL: z.string().url().startsWith('postgresql://'), // Validate DATABASE_URL
+  DATABASE_URL: z.string().url().startsWith('postgresql://'),
+  ETHEREUM_RPC_URL: z.string().url().startsWith('https://'), // Validate ETHEREUM_RPC_URL
 });
 
 // Parse and validate the environment variables

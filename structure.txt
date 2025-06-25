@@ -2,7 +2,7 @@ cerberus/
 └── cerberus-backend/
     ├── .husky/
     │   └── pre-commit
-    ├── db/                                  // ★ NEW: Database schema management
+    ├── db/                                // Database schema management
     │   └── migrations/
     │       └── <timestamp>_create_users_and_wallets_tables.mjs
     ├── node_modules/
@@ -11,9 +11,12 @@ cerberus/
     │   │   ├── services/
     │   │   │   └── portfolio.service.test.js
     │   │   └── dal/
-    │   │       └── user.model.test.js
-    │   └── e2e/
-    │       └── health.test.js  // We will create this next
+    │   │       ├── user.model.test.js
+    |   |       └── wallet.model.test.js
+    │   ├── e2e/
+    │   |    └── health.test.js 
+    |   |
+    |   └── jest.setup.cjs
     │
     ├── src/
     │   ├── api/
