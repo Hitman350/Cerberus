@@ -11,6 +11,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   DATABASE_URL: z.string().url().startsWith('postgresql://'),
   ETHEREUM_RPC_URL: z.string().url().startsWith('https://'), // Validate ETHEREUM_RPC_URL
+  SOLANA_RPC_URL: z.string().url().startsWith('https://'),
 });
 
 // Parse and validate the environment variables

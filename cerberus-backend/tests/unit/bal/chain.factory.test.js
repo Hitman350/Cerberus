@@ -1,28 +1,31 @@
 // tests/unit/bal/chain.factory.test.js
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 
-// Manually create a mock function.
+// Manually create mock functions for both of our client classes.
 const mockEVMClient = jest.fn();
+const mockSolanaClient = jest.fn();
 
-// Use jest.unstable_mockModule to replace the real module with our mock.
-// This is done once at the top level.
+// Use jest.unstable_mockModule to replace the real modules with our mocks.
+// This is the definitive way to handle ESM mocking in Jest.
 jest.unstable_mockModule('../../../src/bal/connectors/evm.client.js', () => ({
   EVMClient: mockEVMClient,
 }));
+jest.unstable_mockModule('../../../src/bal/connectors/solana.client.js', () => ({
+  SolanaClient: mockSolanaClient,
+}));
 
 describe('Chain Factory - getClient()', () => {
-  // This hook runs before each `it` block.
+  // This hook runs before each `it` block, ensuring perfect test isolation.
   beforeEach(() => {
-    // 1. Reset the call history of our mock function.
+    // Clear mock call history.
     mockEVMClient.mockClear();
-    // 2. CRITICAL: Clear Jest's entire module cache. This ensures that the
-    //    next `import()` will give us a fresh version of chain.factory.js
-    //    with an empty internal `clientCache`.
+    mockSolanaClient.mockClear();
+    // Clear Jest's module cache to get a fresh `chain.factory.js` every time.
     jest.resetModules();
   });
 
   it('should return an instance of the mocked EVMClient for "ethereum"', async () => {
-    // Dynamically import the factory *inside the test* to get the fresh version.
+    // Dynamically import the factory inside the test to get the fresh, uncached version.
     const { getClient } = await import('../../../src/bal/chain.factory.js');
     const client = getClient('ethereum');
 
@@ -30,7 +33,16 @@ describe('Chain Factory - getClient()', () => {
     expect(client).toBeInstanceOf(mockEVMClient);
   });
 
-  it('should return the same cached instance on subsequent calls WITHIN the same test', async () => {
+  it('should return an instance of the mocked SolanaClient for "solana"', async () => {
+    // This test now follows the exact same pattern for consistency and reliability.
+    const { getClient } = await import('../../../src/bal/chain.factory.js');
+    const client = getClient('solana');
+
+    expect(mockSolanaClient).toHaveBeenCalledTimes(1);
+    expect(client).toBeInstanceOf(mockSolanaClient);
+  });
+
+  it('should return the same cached instance on subsequent calls within the same test', async () => {
     const { getClient } = await import('../../../src/bal/chain.factory.js');
 
     const client1 = getClient('ethereum');
@@ -43,17 +55,9 @@ describe('Chain Factory - getClient()', () => {
 
   it('should throw an error for an unsupported chainId', async () => {
     const { getClient } = await import('../../../src/bal/chain.factory.js');
-    const attemptToGetClient = () => getClient('cardano');
+    const attemptToGetClient = () => getClient('cardano'); // An unsupported chain
     expect(attemptToGetClient).toThrow(
       'Unsupported chain: cardano. No configuration found.'
-    );
-  });
-
-  it('should throw an error for a configured but unimplemented chain', async () => {
-    const { getClient } = await import('../../../src/bal/chain.factory.js');
-    const attemptToGetClient = () => getClient('solana');
-    expect(attemptToGetClient).toThrow(
-      'Client for chain solana is not yet implemented.'
     );
   });
 });

@@ -1,0 +1,26 @@
+[
+  {
+    "assetId": "usd-coin",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "mintAddress": "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    "decimals": 6,
+    "logoUri": "https://assets.coingecko.com/coins/images/6319/standard/usdc.png"
+  },
+  {
+    "assetId": "tether",
+    "name": "Tether",
+    "symbol": "USDT",
+    "mintAddress": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+    "decimals": 6,
+    "logoUri": "https://assets.coingecko.com/coins/images/325/standard/Tether-logo.png"
+  },
+  {
+    "assetId": "wrapped-solana",
+    "name": "Wrapped Solana",
+    "symbol": "wSOL",
+    "mintAddress": "So11111111111111111111111111111111111111112",
+    "decimals": 9,
+    "logoUri": "https://assets.coingecko.com/coins/images/13447/standard/wrapped_solana.png"
+  }
+]

@@ -1,8 +1,7 @@
 // src/bal/chain.factory.js
 import { config } from '../config/index.js';
 import { EVMClient } from './connectors/evm.client.js';
-// We will import the SolanaClient here later.
-// import { SolanaClient } from './connectors/solana.client.js';
+import { SolanaClient } from './connectors/solana.client.js';
 
 // A private cache to store initialized client instances.
 // Using a Map is a modern and efficient way to implement a cache.
@@ -18,8 +17,7 @@ const chainConfig = {
     rpcUrl: config.ETHEREUM_RPC_URL,
   },
   solana: {
-    // We'll uncomment this when the SolanaClient is ready.
-    // Client: SolanaClient,
+    Client: SolanaClient,
     rpcUrl: config.SOLANA_RPC_URL,
   },
   // We can easily add more chains here in the future, like Polygon or BSC.
