@@ -164,11 +164,11 @@ To build a fully insulated, unified, and extensible core for all multi-chain int
     *   **`solana.client.test.js`**: Do the same for a Solana devnet address with SOL and SPL tokens.
 
 **Definition of Done:**
-- [ ] The BAL can fetch balances from all supported chains and testnets.
-- [ ] All returned data from any client conforms to the single, standardized `AssetBalance` interface.
-- [ ] The chain factory correctly provides memoized clients.
-- [ ] Unit and integration tests pass, proving the BAL's correctness and insulation.
-- [ ] No EVM or Solana-specific code exists outside of the `src/bal/connectors` directory.
+- [x] The BAL can fetch balances from all supported chains and testnets.
+- [x] All returned data from any client conforms to the single, standardized `AssetBalance` interface.
+- [x] The chain factory correctly provides memoized clients.
+- [x] Unit and integration tests pass, proving the BAL's correctness and insulation.
+- [x] No EVM or Solana-specific code exists outside of the `src/bal/connectors` directory.
 
 Of course. Here is the complete, definitive implementation roadmap for Project Cerberus, continuing from the foundation we've established. This plan is designed to be followed sequentially, ensuring that each layer is robust, tested, and correct before the next one is built upon it.
 

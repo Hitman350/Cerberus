@@ -2,21 +2,24 @@ cerberus/
 └── cerberus-backend/
     ├── .husky/
     │   └── pre-commit
-    ├── db/                                // Database schema management
+    ├── db/
     │   └── migrations/
     │       └── <timestamp>_create_users_and_wallets_tables.mjs
     ├── node_modules/
     ├── tests/
+    │   ├── e2e/
+    │   │   └── health.test.js
     │   ├── integration/
-    │   │   ├── services/
-    │   │   │   └── portfolio.service.test.js
+    │   │   ├── bal/
+    │   │   │   ├── evm.client.test.js
+    │   │   │   └── solana.client.test.js
     │   │   └── dal/
     │   │       ├── user.model.test.js
-    |   |       └── wallet.model.test.js
-    │   ├── e2e/
-    │   |    └── health.test.js 
-    |   |
-    |   └── jest.setup.cjs
+    │   │       └── wallet.model.test.js
+    │   ├── unit/
+    │   │   └── bal/
+    │   │       └── chain.factory.test.js
+    │   └── jest.setup.cjs
     │
     ├── src/
     │   ├── api/
@@ -26,27 +29,25 @@ cerberus/
     │   │   ├── schemas/
     │   │   │   ├── auth.schemas.js
     │   │   │   └── portfolio.schemas.js
-    │   │   └── index.js                   // ★ Main API router (combines sub-routers)
-    │   │
-    │   ├── services/
-    │   │   ├── auth.service.js
-    │   │   ├── market.service.js
-    │   │   └── portfolio.service.js
+    │   │   └── index.js
     │   │
     │   ├── bal/
     │   │   ├── connectors/
     │   │   │   ├── evm.client.js
     │   │   │   └── solana.client.js
-    │   │   └── chain.factory.js
-    │   │
-    │   ├── middleware/
-    │   │   ├── authenticate.js
-    │   │   ├── errorHandler.js
-    │   │   └── validateRequest.js
+    │   │   ├── chain.factory.js
+    │   │   └── types.js
     │   │
     │   ├── config/
-    │   │   ├── index.js                   // Validated config loader
-    │   │   └── abis.js
+    │   │   ├── abis.js
+    │   │   └── index.js
+    │   │
+    │   ├── dal/
+    │   │   ├── models/
+    │   │   │   ├── user.model.js
+    │   │   │   └── wallet.model.js
+    │   │   ├── postgres.js
+    │   │   └── redis.js
     │   │
     │   ├── data/
     │   │   ├── abis/
@@ -55,28 +56,34 @@ cerberus/
     │   │       ├── ethereum.json
     │   │       └── solana.json
     │   │
-    │   ├── dal/
-    │   │   ├── postgres.js
-    │   │   ├── redis.js
-    │   │   └── models/
-    │   │       ├── user.model.js
-    │   │       └── wallet.model.js
+    │   ├── middleware/
+    │   │   ├── authenticate.js
+    │   │   ├── errorHandler.js
+    │   │   └── validateRequest.js
+    │   │
+    │   ├── services/
+    │   │   ├── auth.service.js
+    │   │   ├── market.service.js
+    │   │   └── portfolio.service.js
     │   │
     │   ├── utils/
-    │   │   ├── logger.js
-    │   │   └── bigNumber.js
+    │   │   ├── bigNumber.js
+    │   │   └── logger.js
     │   │
-    │   └── app.js                         // ★ NEW: Core Express app instance & global middleware
+    │   └── app.js
     │
     ├── .dockerignore
     ├── .env
     ├── .env.example
     ├── .gitignore
     ├── .prettierrc
-    ├── Dockerfile
+    ├── docker-compose.yml
     ├── ecosystem.config.js
-    ├── eslint.config.mjs                  // ★ RENAMED to .mjs
-    ├── index.js                           // Main application entry point (server runner)
+    ├── eslint.config.mjs
+    ├── jest.config.js
+    ├── index.js
     ├── package.json
     ├── package-lock.json
-    └── SECURITY.md                     # ★ The formal, non-custodial security policy document
+    ├── PROJECT_CONTEXT.md
+    ├── Roadmap.md
+    └── SECURITY.md

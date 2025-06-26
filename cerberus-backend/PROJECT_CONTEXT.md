@@ -1,4 +1,4 @@
-Of course. Here is the complete, final "living document" for Project Cerberus, fully filled out according to our extensive discussions. This document is designed to be the ultimate context-provider and "shared brain" for collaborating on this project.
+This is the complete, final "living document" for Project Cerberus, fully filled out according to our extensive discussions. This document is designed to be the ultimate context-provider and "shared brain" for collaborating on this project.
 
 ---
 
@@ -13,8 +13,8 @@ Of course. Here is the complete, final "living document" for Project Cerberus, f
 ## **1. Project Vision & Current State**
 
 -   **High-Level Vision:** To build a secure, high-performance, and scalable multi-chain DeFi wallet backend, acting as the central nervous system for a world-class user-facing application.
--   **Current Goal:** We are building the foundational MVP. The immediate focus is on creating a robust and testable backend structure, starting with user authentication, data access, and the core blockchain abstraction.
--   **Current Status:** The project foundation is complete. We are beginning **Phase 1: Data Access & Schema Management**.
+-    **Current Goal:** We are building the foundational MVP. Having completed the data and blockchain layers, our next focus is to build the service layer that contains our core business logic.
+-   **Current Status:** We have completed Phases 0, 1, and 2. We are now starting **Phase 3: Core Business Logic & Services**.
 
 ---
 
@@ -40,14 +40,14 @@ Of course. Here is the complete, final "living document" for Project Cerberus, f
     *   [x] Implement Data Access Layer (DAL) models (`user.model.js`, `wallet.model.js`).
     *   [x] Write integration tests for all DAL models against a test database.
 
--   **[ ] Phase 2: The Blockchain Abstraction Layer (BAL)** `--> YOU ARE HERE`
+-   **[x] Phase 2: The Blockchain Abstraction Layer (BAL)** 
     *   [x] Implement the generic `EVMClient`.
-    *   [ ] Implement the `SolanaClient`.
+    *   [x] Implement the `SolanaClient`.
     *   [x] Define the standardized `AssetBalance` interface.
-    *   [ ] Implement the `ChainFactory` to provide clients.
-    *   [ ] Write integration tests for the BAL against testnets.
+    *   [x] Implement the `ChainFactory` to provide clients.
+    *   [x] Write integration tests for the BAL against testnets.
 
--   **[ ] Phase 3: Core Business Logic & Services**
+-   **[ ] Phase 3: Core Business Logic & Services** `--> YOU ARE HERE`
     *   [ ] Implement `auth.service.js` (registration, login, refresh, logout logic).
     *   [ ] Unit test the `auth.service.js` with mocked DAL.
     *   [ ] Implement `market.service.js` (price fetching and caching).
@@ -81,57 +81,33 @@ Of course. Here is the complete, final "living document" for Project Cerberus, f
 
 ## **3. Key Architectural Decisions & "Golden Rules"**
 <!--
-  This is our constitution. It prevents me from suggesting solutions that contradict our choices.
+  This is our constitution, consolidated and cleaned. It prevents me from suggesting solutions that contradict our choices.
 -->
 
-- **Architecture:** Strict `Controller -> Service -> Data Access` pattern. Controllers are thin; Services contain logic; DALs handle data.
-- **Database:**
-  - **Connection:** Use a **lazy-initialized singleton pattern** for the PostgreSQL connection pool to prevent test environment lifecycle issues.
-  - **Schema:** All schema changes are managed via `node-pg-migrate`.
-  - **Querying:** All database access is through DAL models using parameterized queries.
-- **Security:**
-  - **Validation:** All API inputs are validated upfront with `Zod`.
-  - **Password Hashing:** Use **`argon2id`** (via the `argon2` library) for password hashing, as specified in the PRD.
-  - **Authentication:** JWTs for access control.
-- **Error Handling:** Services throw custom, named errors. A global error handler middleware will catch these and format a consistent JSON response.
-- **Testing:**
-  - **DAL:** Tested with **integration tests** against a real (Dockerized) database.
-  - **Services:** Tested with **unit tests**, mocking all external dependencies (DAL, other services).
-  - **API:** Tested with **E2E tests** using `supertest`.
-- **Environment Variables:** Must be loaded at the earliest possible point in the application lifecycle (`index.js` for the app, a setup file for tests) to prevent race conditions.
-
----
-
--   **Overall Architecture:** Follows a strict `Controller -> Service -> Data Access` pattern.
-    -   `Controllers` (`api/`): Handle HTTP `req`/`res`. Absolutely no business logic. Their job is to parse the request, call a single service method, and format the response.
-    -   `Services` (`services/`): Contain all business logic and orchestration. They are "pure" and know nothing about HTTP. They are the only layer allowed to call other services.
-    -   `Data Layers` (`dal/`, `bal/`): Handle all external communication (Databases, Blockchains). They should not contain any business logic, only data fetching/persisting.
-
--   **Database (`dal/`):**
-    -   **Primary DB:** PostgreSQL.
-    *   **Schema Management:** All schema changes **must** be done via `node-pg-migrate` files. No manual `ALTER TABLE` commands. The state of the database schema is defined by code in the repository.
-    *   **Querying:** Use the `pg` library. All database access **must** be through DAL models. These models are the only part of the application allowed to contain raw SQL and **must** use parameterized queries to prevent SQL injection.
-
--   **Blockchain (`bal/`):**
-    -   **Abstraction:** All chain-specific logic **must** be contained within a client in `src/bal/connectors/`. The rest of the application should have no knowledge of `web3.js` or `@solana/web3.js`.
-    -   **Standardization:** All connector clients **must** return data that conforms to our standardized interfaces (e.g., `AssetBalance`). This ensures the `PortfolioService` can treat data from Ethereum and Solana identically.
-    -   **Factory Entry Point:** All service-layer interactions with the BAL **must** go through the `chain.factory.js`.
-
+-   **Architecture:** Strict `Controller -> Service -> Data Access` pattern. Controllers are thin; Services contain business logic; DALs/BALs handle external data.
+-   **Database:**
+    -   **Connection:** Use a **lazy-initialized singleton pattern** for the PostgreSQL connection pool to prevent test environment lifecycle issues.
+    -   **Schema:** All schema changes are managed via `node-pg-migrate`.
+    -   **Querying:** All database access is through DAL models using parameterized queries.
+-   **Blockchain (BAL):**
+    -   **Abstraction:** All chain-specific logic is encapsulated within connector clients in `src/bal/connectors/`.
+    -   **Standardization:** All connectors MUST return data that conforms to our standard `AssetBalance` interface.
+    -   **Entry Point:** All service-layer interactions with the BAL MUST go through the `chain.factory.js`.
 -   **Security:**
-    -   **Validation:** All incoming request bodies, parameters, and query strings **must** be validated using `Zod` at the middleware or route level. Fail fast.
-    *   **Password Hashing:** Use `bcrypt` with a salt round count of 12.
-    *   **Authentication:** Protected routes will be secured using short-lived JWTs. A refresh token mechanism will be used for persistent sessions. Session termination is handled via a Redis-based JWT revocation list.
-    *   **Secrets:** No secrets are to be stored in `.env` in production. All secrets will be fetched from AWS Secrets Manager at application startup.
+    -   **Validation:** All API inputs are validated upfront with `Zod`.
+    -   **Password Hashing:** Use **`argon2id`** (via the `argon2` library) for password hashing.
+    -   **Authentication:** JWTs for access control.
+-   **Error Handling:** Services throw custom, named errors. A global error handler middleware will catch them and format a consistent JSON response.
+-   **Testing:**
+    -   **DAL/BAL:** Tested with **integration tests** against real (Dockerized or testnet) external services.
+    -   **Services:** Tested with **unit tests**, mocking all external dependencies (DAL, BAL, other services).
+    -   **API:** Tested with **E2E tests** using `supertest`.
+-   **Environment Variables:** Must be loaded at the earliest possible point in the application lifecycle (`index.js` for the app, a setup file for tests) to prevent race conditions.
+-   **Code Style:** Use `async/await` for all asynchronous operations. Favor immutability where practical.
 
--   **Error Handling:**
-    -   **Strategy:** Services and data layers should throw custom, named errors (e.g., `new NotFoundError('User not found')`, `new AuthenticationError('Invalid credentials')`). A global error handler middleware will catch these and format a consistent JSON error response with the appropriate HTTP status code. Generic `Error` types will default to a `500 Internal Server Error`.
-
--   **Code Style & Quality:**
-    -   **Asynchronous Code:** Use `async/await` for all asynchronous operations. Avoid raw `.then()` chains for flow control.
-    -   **Immutability:** Favor immutable data structures where possible. Use `Object.freeze()` on the exported `config` object.
-    -   **Dependency Injection:** Dependencies (like DAL models or other services) should be passed into service constructors or functions to facilitate easier testing (manual dependency injection).
 
 ---
+
 
 ## **4. Project Directory Structure (The Map)**
 
@@ -140,21 +116,24 @@ cerberus/
 └── cerberus-backend/
     ├── .husky/
     │   └── pre-commit
-    ├── db/                                // Database schema management
+    ├── db/
     │   └── migrations/
     │       └── <timestamp>_create_users_and_wallets_tables.mjs
     ├── node_modules/
     ├── tests/
+    │   ├── e2e/
+    │   │   └── health.test.js
     │   ├── integration/
-    │   │   ├── services/
-    │   │   │   └── portfolio.service.test.js
+    │   │   ├── bal/
+    │   │   │   ├── evm.client.test.js
+    │   │   │   └── solana.client.test.js
     │   │   └── dal/
     │   │       ├── user.model.test.js
-    |   |       └── wallet.model.test.js
-    │   ├── e2e/
-    │   |    └── health.test.js 
-    |   |
-    |   └── jest.setup.cjs
+    │   │       └── wallet.model.test.js
+    │   ├── unit/
+    │   │   └── bal/
+    │   │       └── chain.factory.test.js
+    │   └── jest.setup.cjs
     │
     ├── src/
     │   ├── api/
@@ -164,27 +143,25 @@ cerberus/
     │   │   ├── schemas/
     │   │   │   ├── auth.schemas.js
     │   │   │   └── portfolio.schemas.js
-    │   │   └── index.js                   // ★ Main API router (combines sub-routers)
-    │   │
-    │   ├── services/
-    │   │   ├── auth.service.js
-    │   │   ├── market.service.js
-    │   │   └── portfolio.service.js
+    │   │   └── index.js
     │   │
     │   ├── bal/
     │   │   ├── connectors/
     │   │   │   ├── evm.client.js
     │   │   │   └── solana.client.js
-    │   │   └── chain.factory.js
-    │   │
-    │   ├── middleware/
-    │   │   ├── authenticate.js
-    │   │   ├── errorHandler.js
-    │   │   └── validateRequest.js
+    │   │   ├── chain.factory.js
+    │   │   └── types.js
     │   │
     │   ├── config/
-    │   │   ├── index.js                   // Validated config loader
-    │   │   └── abis.js
+    │   │   ├── abis.js
+    │   │   └── index.js
+    │   │
+    │   ├── dal/
+    │   │   ├── models/
+    │   │   │   ├── user.model.js
+    │   │   │   └── wallet.model.js
+    │   │   ├── postgres.js
+    │   │   └── redis.js
     │   │
     │   ├── data/
     │   │   ├── abis/
@@ -193,29 +170,35 @@ cerberus/
     │   │       ├── ethereum.json
     │   │       └── solana.json
     │   │
-    │   ├── dal/
-    │   │   ├── postgres.js
-    │   │   ├── redis.js
-    │   │   └── models/
-    │   │       ├── user.model.js
-    │   │       └── wallet.model.js
+    │   ├── middleware/
+    │   │   ├── authenticate.js
+    │   │   ├── errorHandler.js
+    │   │   └── validateRequest.js
+    │   │
+    │   ├── services/
+    │   │   ├── auth.service.js
+    │   │   ├── market.service.js
+    │   │   └── portfolio.service.js
     │   │
     │   ├── utils/
-    │   │   ├── logger.js
-    │   │   └── bigNumber.js
+    │   │   ├── bigNumber.js
+    │   │   └── logger.js
     │   │
-    │   └── app.js                         // ★ NEW: Core Express app instance & global middleware
+    │   └── app.js
     │
     ├── .dockerignore
     ├── .env
     ├── .env.example
     ├── .gitignore
     ├── .prettierrc
-    ├── Dockerfile
+    ├── docker-compose.yml
     ├── ecosystem.config.js
-    ├── eslint.config.mjs                  // ★ RENAMED to .mjs
-    ├── index.js                           // Main application entry point (server runner)
+    ├── eslint.config.mjs
+    ├── jest.config.js
+    ├── index.js
     ├── package.json
     ├── package-lock.json
-    └── SECURITY.md                     # ★ The formal, non-custodial security policy document
+    ├── PROJECT_CONTEXT.md
+    ├── Roadmap.md
+    └── SECURITY.md
 ```
