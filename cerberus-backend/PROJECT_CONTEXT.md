@@ -1,15 +1,3 @@
-This is the complete, final "living document" for Project Cerberus, fully filled out according to our extensive discussions. This document is designed to be the ultimate context-provider and "shared brain" for collaborating on this project.
-
----
-
-# **Project Cerberus: AI Collaboration Context & Living Documentation**
-<!-- 
-  INSTRUCTIONS FOR THE HUMAN (YOU):
-  1. **THIS IS OUR SHARED BRAIN.** Keep it open while you work.
-  2. **UPDATE IT AFTER EVERY COMMIT.** The state of this doc MUST match the `develop` branch.
-  3. **PASTE RELEVANT SECTIONS TO ME.** At the start of a new work session, copy/paste the relevant parts (e.g., Current State, Goal, Key Decisions) into our chat to brief me.
--->
-
 ## **1. Project Vision & Current State**
 
 -   **High-Level Vision:** To build a secure, high-performance, and scalable multi-chain DeFi wallet backend, acting as the central nervous system for a world-class user-facing application.

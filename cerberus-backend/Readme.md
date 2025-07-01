@@ -1,12 +1,7 @@
-This is the culmination of our discussions, synthesized into a single, exhaustive Product Requirements Document (PRD) that adheres to your request for maximum detail, verbosity, and technical completeness. This document is designed to serve as the definitive "source of truth" for the engineering team building Project Cerberus.
-
----
-
 ### **Product Requirements Document: Project Cerberus (DeFi Wallet Backend Platform)**
 
 **Version:** 1.0
 **Author:** Aayush Padhy    
-**Date:** June 7, 2025
 
 ### 1. Project Overview
 

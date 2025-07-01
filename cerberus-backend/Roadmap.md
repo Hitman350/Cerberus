@@ -1,6 +1,4 @@
-Here is the revised, ultimate implementation plan for Project Cerberus, incorporating the architectural enhancements and a "build it right" philosophy. This plan assumes zero constraints and aims for the highest standard.
-
----
+## **This is the roadmap to be followed during the development of the Cerberus DeFi Wallet.**
 
 ## **Project Cerberus: The Definitive Implementation Roadmap**
 
