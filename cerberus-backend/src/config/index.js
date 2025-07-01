@@ -11,7 +11,10 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   DATABASE_URL: z.string().url().startsWith('postgresql://'),
   ETHEREUM_RPC_URL: z.string().url().startsWith('https://'), // Validate ETHEREUM_RPC_URL
-  SOLANA_RPC_URL: z.string().url().startsWith('https://'),
+  SOLANA_RPC_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters long.'),
+  JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters long.'),
+  COINGECKO_API_BASE_URL: z.string().url(),
 });
 
 // Parse and validate the environment variables

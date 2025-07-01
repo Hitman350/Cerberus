@@ -17,8 +17,12 @@ cerberus/
     │   │       ├── user.model.test.js
     │   │       └── wallet.model.test.js
     │   ├── unit/
-    │   │   └── bal/
-    │   │       └── chain.factory.test.js
+    │   │   ├── bal/
+    │   │   │   └── chain.factory.test.js
+    │   │   └── services/
+    │   │       ├── auth.service.test.js
+    │   │       ├── market.service.test.js
+    │   │       └── portfolio.service.test.js
     │   └── jest.setup.cjs
     │
     ├── src/
@@ -68,6 +72,7 @@ cerberus/
     │   │
     │   ├── utils/
     │   │   ├── bigNumber.js
+    │   │   ├── errors.js
     │   │   └── logger.js
     │   │
     │   └── app.js

@@ -1,8 +1,8 @@
 ## **1. Project Vision & Current State**
 
 -   **High-Level Vision:** To build a secure, high-performance, and scalable multi-chain DeFi wallet backend, acting as the central nervous system for a world-class user-facing application.
--    **Current Goal:** We are building the foundational MVP. Having completed the data and blockchain layers, our next focus is to build the service layer that contains our core business logic.
--   **Current Status:** We have completed Phases 0, 1, and 2. We are now starting **Phase 3: Core Business Logic & Services**.
+-   **Current Goal:** We are building the foundational MVP. Having completed all backend logic, our next focus is to build the API layer to expose this functionality to the world.
+-   **Current Status:** We have completed Phases 0, 1, 2, and 3. We are now starting **Phase 4: API Layer & Security Hardening**.
 
 ---
 
@@ -35,15 +35,15 @@
     *   [x] Implement the `ChainFactory` to provide clients.
     *   [x] Write integration tests for the BAL against testnets.
 
--   **[ ] Phase 3: Core Business Logic & Services** `--> YOU ARE HERE`
-    *   [ ] Implement `auth.service.js` (registration, login, refresh, logout logic).
-    *   [ ] Unit test the `auth.service.js` with mocked DAL.
-    *   [ ] Implement `market.service.js` (price fetching and caching).
-    *   [ ] Unit test the `market.service.js` with mocked Redis and HTTP clients.
-    *   [ ] Implement `portfolio.service.js` (orchestration logic).
-    *   [ ] Unit test the `portfolio.service.js` with mocked dependencies.
+-   **[x] Phase 3: Core Business Logic & Services** 
+    *   [x] Implement `auth.service.js` (registration, login, refresh, logout logic).
+    *   [x] Unit test the `auth.service.js` with mocked DAL.
+    *   [x] Implement `market.service.js` (price fetching and caching).
+    *   [x] Unit test the `market.service.js` with mocked Redis and HTTP clients.
+    *   [x] Implement `portfolio.service.js` (orchestration logic).
+    *   [x] Unit test the `portfolio.service.js` with mocked dependencies.
 
--   **[ ] Phase 4: API Layer & Security Hardening**
+-   **[ ] Phase 4: API Layer & Security Hardening** `--> YOU ARE HERE`
     *   [ ] Implement `Zod` validation schemas for all API inputs.
     *   [ ] Implement `authenticate` and `validateRequest` middleware.
     *   [ ] Implement all API routes and controllers (`auth`, `portfolio`, `wallet`).
@@ -119,8 +119,12 @@ cerberus/
     │   │       ├── user.model.test.js
     │   │       └── wallet.model.test.js
     │   ├── unit/
-    │   │   └── bal/
-    │   │       └── chain.factory.test.js
+    │   │   ├── bal/
+    │   │   │   └── chain.factory.test.js
+    │   │   └── services/
+    │   │       ├── auth.service.test.js
+    │   │       ├── market.service.test.js
+    │   │       └── portfolio.service.test.js
     │   └── jest.setup.cjs
     │
     ├── src/
@@ -170,6 +174,7 @@ cerberus/
     │   │
     │   ├── utils/
     │   │   ├── bigNumber.js
+    │   │   ├── errors.js
     │   │   └── logger.js
     │   │
     │   └── app.js

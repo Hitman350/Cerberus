@@ -230,11 +230,11 @@ To implement the "brains" of the application. This phase involves creating the s
         *   Test the calculation logic: provide mock data and assert that the final `totalValue` is arithmetically correct.
 
 **Definition of Done:**
-- [ ] The `AuthService` provides complete, secure, and tested logic for user session management.
-- [ ] The `PortfolioService` can correctly orchestrate all dependencies to generate an accurate portfolio value.
-- [ ] The system is resilient to a single blockchain node or the market data API being down.
-- [ ] All business logic is contained within the `src/services` directory.
-- [ ] Unit tests for all services pass with high logical coverage.
+- [x] The `AuthService` provides complete, secure, and tested logic for user session management.
+- [x] The `PortfolioService` can correctly orchestrate all dependencies to generate an accurate portfolio value.
+- [x] The system is resilient to a single blockchain node or the market data API being down.
+- [x] All business logic is contained within the `src/services` directory.
+- [x] Unit tests for all services pass with high logical coverage.
 
 ---
 
